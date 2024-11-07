@@ -1,10 +1,16 @@
 package com.yupi.oj_system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yupi.oj_system.model.dto.question.QuestionQueryRequest;
+import com.yupi.oj_system.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.yupi.oj_system.model.dto.user.UserQueryRequest;
+import com.yupi.oj_system.model.entity.Question;
+import com.yupi.oj_system.model.entity.QuestionSubmit;
 import com.yupi.oj_system.model.entity.User;
 import com.yupi.oj_system.model.vo.LoginUserVO;
+import com.yupi.oj_system.model.vo.QuestionVO;
 import com.yupi.oj_system.model.vo.UserVO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -118,4 +124,29 @@ public interface UserService extends IService<User> {
      */
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 
+    /**
+    * @author fmy
+    * @description 针对表【question(题目)】的数据库操作Service
+    * @createDate 2024-11-05 11:14:43
+    */
+    interface QuestionService extends IService<Question> {
+
+        void validQuestion(Question question, boolean add);
+
+        QueryWrapper<Question> getQueryWrapper(QuestionQueryRequest questionQueryRequest);
+
+        QuestionVO getQuestionVO(Question question, HttpServletRequest request);
+
+        Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request);
+    }
+
+    /**
+    * @author fmy
+    * @description 针对表【question_submit(题目提交)】的数据库操作Service
+    * @createDate 2024-11-05 11:16:37
+    */
+    interface QuestionSubmitService extends IService<QuestionSubmit> {
+
+        long doQuestionSutmit(QuestionSubmitAddRequest questionSubmitAddRequest, User loginUser);
+    }
 }
